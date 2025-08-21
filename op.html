@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pesan Manis untuk Kamu</title>
+  <style>
+    :root{
+      --pink-1:#fff0f5;
+      --pink-2:#ffd6e7;
+      --pink-3:#ff9ec9;
+      --pink-4:#ff6aa3;
+      --pink-5:#ff2d7a;
+      --ink:#3a2b35;
+      --white:#ffffff;
+      --shadow:0 20px 40px rgba(255, 105, 180, .25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Times New Roman", Times, serif;
+      color:var(--ink);
+      background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+      overflow-x:hidden;
+    }
+    .glow{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(600px 300px at 10% 20%, rgba(255,106,163,.25), transparent 60%),
+        radial-gradient(500px 250px at 90% 30%, rgba(255,45,122,.18), transparent 60%),
+        radial-gradient(700px 350px at 50% 90%, rgba(255,158,201,.22), transparent 60%);
+      filter:saturate(110%);
+    }
+    .wrap{position:relative; z-index:1; min-height:100dvh; display:grid; place-items:center; padding:24px;}
+    .card{
+      width:min(880px, 92vw);
+      background:rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.6);
+      box-shadow: var(--shadow);
+      border-radius:28px;
+      padding: clamp(20px, 4vw, 36px);
+    }
+    .title{display:flex; align-items:center; gap:14px; justify-content:center;}
+    h1{margin:8px 0 6px; font-size: clamp(22px, 4.4vw, 36px); text-align:center; color:#b50a55;}
+    p.lead{margin:0; text-align:center; opacity:.85}
+    .cta{display:flex; gap:12px; justify-content:center; margin-top:22px;}
+    .btn{
+      appearance:none; border:0; cursor:pointer; position:relative;
+      padding:14px 22px; border-radius:999px; font-weight:bold; font-size:16px;
+      background:linear-gradient(180deg, var(--pink-4), var(--pink-5));
+      color:var(--white); box-shadow: 0 10px 20px rgba(255,45,122,.35);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .btn:hover{ transform: translateY(-2px) }
+    .btn:active{ transform: translateY(0) scale(.98) }
+    .btn::after{
+      content:""; position:absolute; inset:-2px; border-radius:inherit;
+      background:radial-gradient(120px 120px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.35), transparent 60%);
+      opacity:0; transition:opacity .2s ease;
+    }
+    .btn:hover::after{opacity:1}
+    section{opacity:1; transform: translateY(0); transition: .6s ease}
+    .hide{opacity:0; transform: translateY(10px); pointer-events:none}
+    .message{display:none;}
+    .message.show{display:block; animation: fadeIn .6s ease both}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+    @keyframes floatUp{from{transform:translateY(0); opacity:1} to{transform:translateY(-80vh); opacity:0}}
+    .text{font-size: clamp(16px, 2.2vw, 18px); line-height: 1.8; margin-top: 6px; white-space: pre-wrap;}
+    .text p{ margin: 0 0 16px; }
+    .tools{ display:flex; gap:10px; justify-content:center; margin-top:18px }
+    .ghost{background: var(--white); color: var(--pink-5); border:1px solid var(--pink-3); box-shadow:none; font-weight:bold}
+    .hearts{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:2 }
+    .hearts .h{ position:absolute; bottom:-40px; font-size:24px; animation: floatUp linear forwards }
+    .flower{font-size:32px; text-align:center; margin-top:20px;}
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
+  <main class="wrap">
+    <section id="intro" class="card">
+      <div class="title"><h1>for u baby</h1></div>
+      <p class="lead">Ada pesan manis dari aku. Klik mulai, ya?</p>
+      <div class="cta"><button id="start" class="btn">Mulai</button></div>
+    </section>
+    <section id="pane" class="card message" aria-live="polite" aria-atomic="true">
+      <div class="title"><h1></h1></div>
+      <div id="text" class="text"></div>
+      <div id="flower" class="flower" style="display:none;">🌸🌷🌹</div>
+      <div class="tools">
+        <button id="replay" class="btn ghost">Ulangi Animasi</button>
+        <button id="back" class="btn ghost">Kembali</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const paragraphs = [
+      "Sayangku, aku tuh kadang suka bingung sendiri gimana caranya nunjukin seberapa sayang aku sama kamu. Karena jujur, rasanya gede banget sampe kata-kata tuh kayak ga pernah cukup buat ngejelasin. Tiap hari aku mikir, gimana caranya biar kamu selalu ngerasa aman, ngerasa disayang, ngerasa cukup cuma karena ada aku.",
+      "Aku tau hidup ga selalu gampang, ga selalu lurus dan mulus jalannya. Kadang bikin kamu cape banget, kadang bikin kamu overthinking, kadang juga bikin kamu ngerasa ga kuat. Tapi, sayang, aku pengen kamu inget, kamu ga pernah harus ngelewatin semua itu sendirian. Ada aku di sini. Aku yang bakal selalu jalan bareng kamu, entah langkah kita pelan, entah kadang ngerasa berat, aku ga akan pernah ninggalin kamu.",
+      "Kamu tuh orang paling berarti buat aku. Senyum kamu bisa bikin semua hal ribet dalam hidup aku terasa lebih ringan. Tatapan kamu bisa bikin aku ngerasa cukup, kayak ‘oh ternyata segini aja udah bikin aku bahagia banget’. Kamu itu alasan kenapa aku pengen terus berjuang, alasan kenapa aku ga gampang nyerah, alasan kenapa aku mau terus ada sampai kapan pun.",
+      "Aku ga tau harus gimana lagi ngejelasin betapa dalamnya rasa aku ke kamu. Rasanya tuh kayak semakin hari semakin gede, semakin dalem, semakin kuat. Kayak setiap detik aku jatuh cinta lagi sama kamu, dengan cara yang ga pernah sama tapi tetep selalu bikin aku bersyukur banget punya kamu.",
+      "Aku janji, sayang… aku bakal selalu ada buat kamu. Ga cuma pas kamu seneng, tapi juga pas kamu lagi jatuh, lagi cape, lagi ngerasa sendiri. Aku bakal selalu jadi orang pertama yang ngulurin tangan buat kamu pegang, jadi telinga yang dengerin semua cerita kamu, jadi bahu tempat kamu bersandar kalo dunia lagi berat-beratnya.",
+      "Aku sayang banget sama kamu. Beneran sayang banget, sampe kadang aku mikir gimana bisa hati aku segini luasnya cuma buat kamu seorang. Kamu itu rumah buat aku, tempat aku pulang, tempat aku nemuin ketenangan. Aku ga butuh apa-apa lagi selama masih bisa punya kamu.",
+      "Jadi jangan pernah ragu sama aku ya sayang. Jangan pernah mikir aku bakal ninggalin atau berhenti sayang sama kamu, karena yang aku rasain ke kamu tuh bukan cuma sekadar perasaan biasa. Kamu itu segalanya buat aku, lebih dari apa pun. Dan aku bakal terus jaga kamu, cintai kamu, sekuat yang aku bisa, selamanya."
+    ];
+
+    const intro=document.getElementById('intro');
+    const pane=document.getElementById('pane');
+    const textEl=document.getElementById('text');
+    const start=document.getElementById('start');
+    const replay=document.getElementById('replay');
+    const back=document.getElementById('back');
+    const hearts=document.getElementById('hearts');
+    const flower=document.getElementById('flower');
+
+    let typing=false;
+    let heartTimer;
+
+    function createHeart(){
+      const el=document.createElement('div');
+      el.className='h';
+      el.textContent='❤';
+      const left=Math.random()*100;
+      const size=18+Math.random()*18;
+      const dur=4+Math.random()*5;
+      el.style.left=left+'vw';
+      el.style.fontSize=size+'px';
+      el.style.animationDuration=dur+'s';
+      hearts.appendChild(el);
+      setTimeout(()=>el.remove(),dur*1000);
+    }
+    function startHearts(){stopHearts(); heartTimer=setInterval(createHeart,300);}
+    function stopHearts(){clearInterval(heartTimer); hearts.querySelectorAll('.h').forEach(h=>h.remove());}
+
+    async function typeParagraph(p){
+      return new Promise(resolve=>{
+        const el=document.createElement('p');
+        textEl.appendChild(el);
+        let i=0;
+        const interval=setInterval(()=>{
+          el.textContent=p.slice(0,i+1);
+          i++;
+          if(i===p.length){clearInterval(interval); resolve();}
+        },40);
+      });
+    }
+
+    async function runTyping(){
+      if(typing) return;
+      typing=true;
+      textEl.innerHTML='';
+      flower.style.display='none';
+      startHearts();
+      for(const p of paragraphs){
+        await typeParagraph(p);
+        await new Promise(r=>setTimeout(r,400));
+      }
+      flower.style.display='block';
+      typing=false;
+    }
+
+    function showPane(){
+      intro.classList.add('hide');
+      setTimeout(()=>{
+        intro.style.display='none';
+        pane.classList.add('show');
+        runTyping();
+      },400);
+    }
+    function showIntro(){
+      stopHearts();
+      pane.classList.remove('show');
+      pane.style.display='none';
+      textEl.innerHTML='';
+      flower.style.display='none';
+      intro.style.display='block';
+      requestAnimationFrame(()=>intro.classList.remove('hide'));
+    }
+    start.addEventListener('mousemove',e=>{
+      const rect=e.currentTarget.getBoundingClientRect();
+      e.currentTarget.style.setProperty('--mx',((e.clientX-rect.left)/rect.width*100)+'%');
+      e.currentTarget.style.setProperty('--my',((e.clientY-rect.top)/rect.height*100)+'%');
+    });
+    start.addEventListener('click',showPane);
+    replay.addEventListener('click',runTyping);
+    back.addEventListener('click',showIntro);
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.documentElement.style.setProperty('--shadow','0 8px 20px rgba(255,105,180,.15)');
+    }
+  </script>
+</body>
+</html>
